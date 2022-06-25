@@ -61,6 +61,10 @@ def game_over():
     canvas.create_text(c.WIDTH / 2, c.HEIGHT / 2, font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
 
 
+root.bind('<Left>', lambda event: change_dir('left'))
+root.bind('<Right>', lambda event: change_dir('right'))
+root.bind('<Up>', lambda event: change_dir('up'))
+root.bind('<Down>', lambda event: change_dir('down'))
 snake = Snake()
 food = Food()
 
