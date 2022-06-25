@@ -40,6 +40,38 @@ class Food:
         canvas.create_oval(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.FOOD_COLOR, tag="food")
 
 
+def move_turn(snake, food):
+    x, y = snake.coordinates[0]
+    if direction == "up":
+        y -= c.PART_SIZE
+    elif direction == "down":
+        y += c.PART_SIZE
+    elif direction == "left":
+        x -= c.PART_SIZE
+    elif direction == "right":
+        x += c.PART_SIZE
+    snake.coordinates.insert(0, (x, y))
+    square = canvas.create_rectangle(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.SNAKE_COLOR)
+    snake.squares.insert(0, square)
+    if check(snake):
+        game_over()
+    else:
+        root.after(c.SPEED, move_turn, snake, food)
+
+
+def check(snake):
+    x, y = snake.coordinates[0]
+    if x < 0 or x >= c.WIDTH:
+        return True
+    elif y < 0 or y >= c.HEIGHT:
+        return True
+    for body_part in snake.coordinates[1:]:
+        if x == body_part[0] and y == body_part[1]:
+            return True
+    return False
+
+
+
 def change_dir(new_direction):
     global direction
     if new_direction == 'left' and direction != 'right':
@@ -61,7 +93,8 @@ root.bind('<Left>', lambda event: change_dir('left'))
 root.bind('<Right>', lambda event: change_dir('right'))
 root.bind('<Up>', lambda event: change_dir('up'))
 root.bind('<Down>', lambda event: change_dir('down'))
+
 snake = Snake()
 food = Food()
-
+move_turn(snake, food)
 root.mainloop()
