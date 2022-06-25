@@ -5,41 +5,40 @@ import constants as c
 root = Tk()
 root.title('Snake Game')
 root.resizable(False, False)
+score = 0
+label = Label(root, text="Score:{}".format(score), font=('caliblri', 20))
+label.pack(side=TOP, anchor=NW)
 
+canvas = Canvas(root, width=c.WIDTH, height=c.HEIGHT, bg=c.BG_COLOR)
+bg = PhotoImage(file='grass.png')
+canvas.create_image(0, 0, image=bg, anchor='nw')
+canvas.pack()
 
-class Main(Canvas):
+class Snake:
+
     def __init__(self):
-        super().__init__(width=c.WIDTH, height=c.HEIGHT, highlightthickness=0, bg=c.BG_COLOR)
-        self.bg = PhotoImage(file='grass.png')
-        self.coordinate = []
-        self.x = c.START_X
-        self.y = c.START_Y
-        self.dir = c.move_way
-        self.start_dir = self.dir['down']
-        self.score = 0
-        self.create_image(0, 0, image=self.bg, anchor="nw")
-        self.create_food()
-        self.scoreboard()
-        self.snake_part(self.x, self.y)
-        self.pack()
+        self.body_size = c.START_SIZE
+        self.coordinates = []
+        self.squares = []
 
-    def scoreboard(self):
-        self.label = Label(root, text=f"Score:{self.score}", font=('calibri', 20))
-        self.label.pack(side=TOP, anchor="nw")
+        for i in range(0, c.START_SIZE):
+            self.coordinates.append([0, 0])
 
-    def update_score(self):
-        self.score = self.score+1
-        self.label['text'] = "Score:{}".format(self.score)
-
-    def create_food(self):
-        x = random.randint(0, 22) * c.PART_SIZE
-        y = random.randint(0, 22) * c.PART_SIZE
-        self.coordinate = [x, y]
-        self.create_oval(x, y, (x + c.PART_SIZE), (y + c.PART_SIZE), fill=c.FOOD_COLOR, tags='food')
-
-    def snake_part(self, x, y):
-        self.part = self.create_rectangle(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.SNAKE_COLOR)
+        for x, y in self.coordinates:
+            square = canvas.create_rectangle(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.SNAKE_COLOR, tag="snake")
+            self.squares.append(square)
 
 
-win = Main()
+class Food:
+
+    def __init__(self):
+        x = random.randint(0, (int(c.WIDTH / c.PART_SIZE)) - 1) * c.PART_SIZE
+        y = random.randint(0, (int(c.HEIGHT / c.PART_SIZE)) - 1) * c.PART_SIZE
+        self.coordinates = [x, y]
+        canvas.create_oval(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.FOOD_COLOR, tag="food")
+
+
+snake = Snake()
+food = Food()
+
 root.mainloop()
