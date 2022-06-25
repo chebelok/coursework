@@ -6,6 +6,7 @@ root = Tk()
 root.title('Snake Game')
 root.resizable(False, False)
 score = 0
+direction = 'down'
 label = Label(root, text="Score:{}".format(score), font=('caliblri', 20))
 label.pack(side=TOP, anchor=NW)
 
@@ -37,6 +38,22 @@ class Food:
         y = random.randint(0, (int(c.HEIGHT / c.PART_SIZE)) - 1) * c.PART_SIZE
         self.coordinates = [x, y]
         canvas.create_oval(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.FOOD_COLOR, tag="food")
+
+
+def change_dir(new_direction):
+    global direction
+    if new_direction == 'left':
+        if direction != 'right':
+            direction = new_direction
+    elif new_direction == 'right':
+        if direction != 'left':
+            direction = new_direction
+    elif new_direction == 'up':
+        if direction != 'down':
+            direction = new_direction
+    elif new_direction == 'down':
+        if direction != 'up':
+            direction = new_direction
 
 
 def game_over():
