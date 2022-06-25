@@ -53,6 +53,16 @@ def move_turn(snake, food):
     snake.coordinates.insert(0, (x, y))
     square = canvas.create_rectangle(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.SNAKE_COLOR)
     snake.squares.insert(0, square)
+    if x == food.coordinates[0] and y == food.coordinates[1]:
+        global score
+        score += 1
+        label.config(text="Score:{}".format(score))
+        canvas.delete("food")
+        food = Food()
+    else:
+        del snake.coordinates[-1]
+        canvas.delete(snake.squares[-1])
+        del snake.squares[-1]
     if check(snake):
         game_over()
     else:
