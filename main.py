@@ -42,18 +42,14 @@ class Food:
 
 def change_dir(new_direction):
     global direction
-    if new_direction == 'left':
-        if direction != 'right':
-            direction = new_direction
-    elif new_direction == 'right':
-        if direction != 'left':
-            direction = new_direction
-    elif new_direction == 'up':
-        if direction != 'down':
-            direction = new_direction
-    elif new_direction == 'down':
-        if direction != 'up':
-            direction = new_direction
+    if new_direction == 'left' and direction != 'right':
+        direction = new_direction
+    elif new_direction == 'right' and direction != 'left':
+        direction = new_direction
+    elif new_direction == 'up' and direction != 'down':
+        direction = new_direction
+    elif new_direction == 'down' and direction != 'up':
+        direction = new_direction
 
 
 def game_over():
