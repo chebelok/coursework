@@ -14,6 +14,7 @@ bg = PhotoImage(file='grass.png')
 canvas.create_image(0, 0, image=bg, anchor='nw')
 canvas.pack()
 
+
 class Snake:
 
     def __init__(self):
@@ -36,6 +37,11 @@ class Food:
         y = random.randint(0, (int(c.HEIGHT / c.PART_SIZE)) - 1) * c.PART_SIZE
         self.coordinates = [x, y]
         canvas.create_oval(x, y, x + c.PART_SIZE, y + c.PART_SIZE, fill=c.FOOD_COLOR, tag="food")
+
+
+def game_over():
+    canvas.delete(ALL)
+    canvas.create_text(c.WIDTH / 2, c.HEIGHT / 2, font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
 
 
 snake = Snake()
